@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<div id="content_people">
+  <table id="people2">
+
+    {% assign source = "people_lists.csv" %}
+    {% csvtable source %}
+      {% for row1 in table.rows %}
+        <th colspan="4"><div id="people_header"><h1>{{row1['header']}}</h1></div></th>
+
+        {% assign source = row1["list"] %}
+        {% csvtable source %}
+          {% for row2 in table.rows %}
+            <tr>
+              {% assign source = row2["list"] %}
+              {% csvtable source %}  
+                {% for row in table.rows %} 
+                  <td><a href="{{row['link']}}">
+                    <img src = "images/{{row['Image']}}" alt="{{row['Name'}},&nbsp;{{row['Title']}}" width="100" height="130" />
+                  </a>
+                </td>
+                 {% endfor %}
+              {%endcsvtable %}
+            </tr>    
+
+            <tr>
+              {% assign source = row2["list"] %}
+              {% csvtable source %}  
+                {% for row in table.rows %}
+                  <td>{{ row['Name'] }}<br />{{ row['Title'] }}</td>
+                {% endfor %}
+              {% endcsvtable %}
+            </tr>
+          {% endfor %}
+        {% endcsvtable %}
+      {% endfor %}
+    {% endcsvtable %}
+    </table>      
+</div>

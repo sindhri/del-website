@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+<div id="content">  <!--start of content div -->
+<div id="content_publications">
+<div id="publications_header"><!--start of publications_header div -->
+ 	<a class="year active" data-year="2012" href="#">2012</a>
+ 	<a class="year" data-year="2011" href="#">2011</a>
+ 	<a class="year" data-year="2010" href="#">2010</a>
+ 	<a class="year" data-year="2009" href="#" >2009</a>
+ 	<a class="year" data-year="early" href="#">Earlier</a>
+</div><!--end of publications_header div -->
+
+<div id="title"><h1>Publications &amp; Presentations</h1></div>
+
+<div id="publications_list"><!--start of publications div -->
+  {% assign years = "2012~2011~2010~2009~early" | split: "~" %}
+  {% for year in years %}
+    <div id="publications_{{year}}"> <!--start div publication_2012 --> 	  
+ 	    <ul>
+        {% assign source = "publications_" | append: year | append: ".csv" %}
+        {% csvtable source %}
+          {% for row in table.rows %}
+            <li>
+              {{row['Name']}}&nbsp;({{row['Year']}})&nbsp;{{row['Title']}}
+              <span class="journal">{{row['Journal']}}</span>
+              {{row['Location']}}
+              {% if row['Link'] != "" %}  
+ 	              <div class="download_link">
+                  {% if row['Action'] == "Link" %}
+ 	                  <a href="{{row['Link']}}">{{ row['Action'] }}</a>
+                  {% else %}
+                    <a href="{{row['Link']}}">Download {{ row['Action'] }}</a>
+                  {% endif %}
+                </div>
+              {% endif %}   
+            </li>
+          {% endfor %}
+        {%endcsvtable %}
+      </ul>
+    </div>
+  {% endfor %}
+</div><!--end of publications_list div -->
+</div><!--end of content_publications div-->
+</div><!--end of content div -->
